@@ -1,6 +1,17 @@
 import { Head, Link } from '@inertiajs/react';
+import { ReactNode } from 'react';
 
-const routes = [
+interface Route {
+    path: string;
+    title: string;
+}
+
+interface LayoutProps {
+    children: ReactNode;
+    title: string;
+}
+
+const routes: Route[] = [
     {
         path: '/',
         title: 'Home',
@@ -15,7 +26,7 @@ const routes = [
     }
 ];
 
-export default function Layout({ children, title }) {
+export default function Layout({ children, title }: LayoutProps) {
     return (
         <>
             <Head title={title} />
@@ -26,7 +37,7 @@ export default function Layout({ children, title }) {
                             <div className="flex">
                                 <ul className="flex-shrink-0 flex items-center gap-2">
                                     {routes.map((item) => (
-                                        <li>
+                                        <li key={item.path}>
                                             <Link href={item.path} className="text-xl font-bold text-gray-900">
                                                 {item.title}
                                             </Link>
