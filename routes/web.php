@@ -12,5 +12,5 @@ Route::get('/test', function () {
 });
 
 Route::get('/test/test', function () {
-    return Inertia::render('Test/Test');
+    return Inertia::render('Test/TestNested');
 });

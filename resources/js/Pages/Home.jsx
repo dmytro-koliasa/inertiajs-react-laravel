@@ -1,4 +1,4 @@
-import Layout from './Layout';
+import Layout from '@/Layouts/Layout';
 
 export default function Home() {
     return (
