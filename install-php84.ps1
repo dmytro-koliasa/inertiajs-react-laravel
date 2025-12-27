@@ -145,3 +145,5 @@ Write-Host "If it still shows PHP 8.3, restart your computer." -ForegroundColor 
 
 
 
+
+

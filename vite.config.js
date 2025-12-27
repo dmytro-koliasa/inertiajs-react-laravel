@@ -8,11 +8,11 @@ export default defineConfig({
         react({
             include: "**/*.{jsx,tsx,js,ts}",
         }),
+        tailwindcss(),
         laravel({
             input: ["resources/css/app.css", "resources/js/app.tsx"],
             refresh: true,
         }),
-        tailwindcss(),
     ],
     resolve: {
         alias: {
