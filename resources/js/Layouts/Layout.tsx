@@ -23,7 +23,7 @@ const routes: Route[] = [
     {
         path: '/test/test',
         title: 'Test Nested',
-    }
+    },
 ];
 
 export default function Layout({ children, title }: LayoutProps) {
@@ -38,7 +38,10 @@ export default function Layout({ children, title }: LayoutProps) {
                                 <ul className="flex-shrink-0 flex items-center gap-2">
                                     {routes.map((item) => (
                                         <li key={item.path}>
-                                            <Link href={item.path} className="text-xl font-bold text-gray-900">
+                                            <Link
+                                                href={item.path}
+                                                className="text-xl font-bold text-gray-900"
+                                            >
                                                 {item.title}
                                             </Link>
                                         </li>
@@ -48,13 +51,8 @@ export default function Layout({ children, title }: LayoutProps) {
                         </div>
                     </div>
                 </nav>
-                <main className="py-6">
-                    {children}
-                </main>
+                <main className="py-6">{children}</main>
             </div>
         </>
     );
 }
-
-
-
