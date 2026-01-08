@@ -1,0 +1,567 @@
+/* CSS переменные для цветов календаря */
+:root {
+  --fc-border-color: #f0f0f0;
+  --fc-header-border: #e5e5e5;
+  --fc-red: #dc2626;
+  --fc-red-hover: #b91c1c;
+  --fc-red-button: #F6213F;
+  --fc-white: #ffffff;
+  --fc-black: #000000;
+  --fc-gray-text: #9ca3af;
+  --fc-time-label: #6b7280;
+
+  /* Dark theme colors */
+  --fc-dark-header: #374151;
+  --fc-dark-weekend-header: #4b5563;
+  --fc-dark-weekend-timegrid: #1f2937;
+  --fc-dark-axis: #111827;
+  --fc-dark-today: rgba(255, 255, 255, 0.05);
+}
+
+/* Базовые стили FullCalendar (без SCSS-nesting, чтобы Tailwind мог парсить файл) */
+.fc {
+  direction: ltr;
+  text-align: left;
+  font-family: inherit;
+}
+
+.fc table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.fc a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.fc a[data-navlink]:hover {
+  text-decoration: underline;
+}
+
+.fc-rtl {
+  text-align: right;
+}
+
+body .fc {
+  font-size: 1em;
+}
+
+/* Бордеры как на скриншоте - тонкие светло-серые */
+.fc-scrollgrid {
+  border: none;
+  border-radius: 0;
+}
+
+.fc-scrollgrid td,
+.fc-scrollgrid th {
+  border: 1px solid var(--fc-border-color);
+}
+
+/* Переопределяем стандартную тему FullCalendar */
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border: 1px solid var(--fc-border-color);
+}
+
+.fc-theme-standard td {
+  border-bottom: none;
+}
+
+.fc-timegrid-slots tr:last-child>td:first-child {
+  border-bottom: none !important;
+}
+
+.fc-timegrid-slots tr:last-child>td:nth-child(2) {
+  &::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-bottom: 1px solid var(--fc-border-color) !important;
+  }
+}
+
+/* Убираем бордеры для первой колонки (время) */
+.fc-theme-standard td.fc-timegrid-axis,
+.fc-theme-standard th.fc-timegrid-axis,
+.fc-theme-standard .fc-timegrid-axis {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+/* Убираем верхний бордер из общего правила для всех ячеек заголовка */
+.fc-scrollgrid th {
+  border-top: none;
+}
+
+.fc-scrollgrid-header tr {
+  border-top: 1px solid var(--fc-header-border);
+  border-bottom: 1px solid var(--fc-header-border);
+}
+
+/* Верхний бордер для заголовка календаря */
+.fc .fc-scrollgrid-section-header {
+  border-top: 1px solid var(--fc-header-border);
+}
+
+/* Верхний бордер только для ячеек дней, не для первой колонки (времени) */
+.fc .fc-scrollgrid-section-header .fc-col-header-cell {
+  border-top: 1px solid var(--fc-header-border) !important;
+}
+
+/* Убеждаемся, что первая колонка (время) не получает верхний бордер */
+.fc .fc-scrollgrid-section-header .fc-timegrid-axis,
+.fc .fc-scrollgrid-section-header .fc-timegrid-axis th,
+.fc .fc-scrollgrid-section-header .fc-timegrid-axis td {
+  border-top: none !important;
+}
+
+.fc-col-header-cell {
+  padding: 0.5em;
+}
+
+.fc-daygrid-day-frame {
+  min-height: 4em;
+}
+
+/* FullCalendar стили для интеграции с daisyUI */
+.fc .fc-button {
+  @apply btn btn-sm;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--bc) / 0.2);
+  background: transparent;
+  color: hsl(var(--bc));
+}
+
+.fc .fc-button:hover {
+  background-color: hsl(var(--bc) / 0.1);
+}
+
+.fc .fc-button.fc-button-active {
+  @apply btn-primary;
+}
+
+.fc .fc-button:disabled {
+  @apply btn-disabled;
+}
+
+.fc .fc-button.fc-timezoneBtn-button {
+  background: none;
+  border: none !important;
+  color: hsl(var(--bc));
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  cursor: default;
+  box-shadow: none;
+}
+
+.fc .fc-button.fc-timezoneBtn-button:hover {
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.fc .fc-button.fc-button-createScheduleBtn {
+  background-color: var(--fc-red);
+  color: var(--fc-white);
+  border-color: var(--fc-red);
+}
+
+.fc .fc-button.fc-button-createScheduleBtn:hover {
+  background-color: var(--fc-red-hover);
+  border-color: var(--fc-red-hover);
+}
+
+.fc .fc-button-group .fc-button {
+  @apply join-item;
+}
+
+.fc .fc-toolbar-title {
+  @apply text-2xl font-bold;
+  color: hsl(var(--bc));
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.fc .fc-toolbar {
+  margin-bottom: 1.5rem;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fc .fc-toolbar-chunk {
+  display: flex;
+  align-items: center;
+  gap: 0;
+
+  .fc-button {
+    margin: 0;
+    background-color: var(--fc-white);
+    color: var(--fc-black);
+    border: 2px solid var(--fc-border-color);
+    display: flex;
+    text-align: center;
+    align-items: center;
+    font-weight: 400;
+    font-size: 14px;
+    padding: 6px 15px;
+    height: auto;
+
+    &:focus {
+      box-shadow: none;
+    }
+
+  }
+
+  .fc-today-button {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+
+  .fc-prev-button,
+  .fc-next-button {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .fc-prev-button {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .fc-next-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .fc-createScheduleBtn-button {
+    margin-left: 10px;
+    color: var(--fc-white);
+    background-color: var(--fc-red-button);
+  }
+
+  .fc-seeMoreBtn-button {
+    border: none;
+    box-shadow: none;
+    font-weight: 700;
+  }
+}
+
+.fc .fc-daygrid-day {
+  @apply bg-base-100;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  @apply bg-base-200;
+}
+
+.fc .fc-col-header-cell {
+  position: relative;
+  background-color: var(--fc-white);
+  border-left: 1px solid var(--fc-header-border) !important;
+  border-right: 1px solid var(--fc-header-border) !important;
+  border-bottom: 1px solid var(--fc-header-border) !important;
+  border-top: none !important;
+  padding: 0;
+}
+
+.fc .fc-col-header-cell .fc-scrollgrid-sync-inner {
+  padding: 0.75rem 0.5rem;
+  border-top: 1px solid var(--fc-header-border);
+}
+
+/* Верхний бордер для ячеек дней в заголовке */
+.fc .fc-scrollgrid-section-header .fc-col-header-cell {
+  border-top: 1px solid var(--fc-header-border) !important;
+}
+
+.fc .fc-col-header-cell .fc-col-header-cell-cushion {
+  @apply text-base-content font-semibold;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Weekend days styling */
+.fc .fc-col-header-cell.fc-day-sat,
+.fc .fc-col-header-cell.fc-day-sun {
+  background-color: var(--fc-white);
+}
+
+/* Светлее цвет текста для понедельника и воскресенья */
+.fc .fc-col-header-cell.fc-day-mon .day-name,
+.fc .fc-col-header-cell.fc-day-mon .day-number,
+.fc .fc-col-header-cell.fc-day-sun .day-name,
+.fc .fc-col-header-cell.fc-day-sun .day-number {
+  opacity: 0.5;
+}
+
+/* Current day header - black background */
+.fc .fc-col-header-cell.fc-day-today .day-number {
+  background-color: var(--fc-black);
+  color: var(--fc-white);
+}
+
+.fc .fc-daygrid-day-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fc .fc-daygrid-day-number {
+  @apply text-base-content;
+  font-weight: 500;
+}
+
+/* Previous/next month days - light gray */
+.fc .fc-day-past .fc-daygrid-day-number,
+.fc .fc-day-future .fc-daygrid-day-number {
+  color: var(--fc-gray-text);
+}
+
+/* Current day - black background with white text */
+.fc .fc-day-today .fc-daygrid-day-number {
+  background-color: var(--fc-black);
+  color: var(--fc-white);
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.25rem;
+}
+
+.fc .fc-event {
+  @apply border-none;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.fc .fc-event:hover {
+  opacity: 0.9;
+}
+
+.fc .fc-event .fc-event-main {
+  padding: 2px 4px;
+}
+
+.fc .fc-event-title {
+  font-weight: 500;
+}
+
+.fc .fc-timegrid-slot {
+  border-color: var(--fc-border-color);
+  height: 3rem;
+}
+
+.fc .fc-timegrid-col {
+  border-right: 1px solid var(--fc-border-color);
+}
+
+/* Current day column - subtle highlight */
+.fc .fc-timegrid-col.fc-day-today {
+  background-color: var(--fc-white);
+}
+
+/* Current time indicator - скрываем нативный индикатор по умолчанию */
+.fc .fc-timegrid-now-indicator-line {
+  visibility: hidden !important;
+}
+
+.fc .fc-timegrid-now-indicator-arrow {
+  visibility: hidden !important;
+}
+
+/* Time label for current time - скрываем нативный тег времени */
+.fc .fc-timegrid-now-indicator-container .fc-timegrid-now-indicator-time {
+  visibility: hidden !important;
+}
+
+/* Custom now indicator time tag */
+.custom-now-indicator-time {
+  position: absolute;
+  left: 31px;
+  background-color: var(--fc-red);
+  color: var(--fc-white);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  z-index: 101;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+/* Custom now indicator line */
+.custom-now-indicator-line {
+  position: absolute;
+  right: 0;
+  border-top: 2px dotted var(--fc-red);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.fc .fc-daygrid-event {
+  border-radius: 0.25rem;
+}
+
+.fc .fc-scrollgrid {
+  border: none;
+}
+
+.fc .fc-list-day-cushion {
+  @apply bg-base-200 text-base-content;
+}
+
+.fc .fc-list-event:hover {
+  background-color: hsl(var(--bc) / 0.05);
+}
+
+.fc .fc-list-event-title {
+  @apply text-base-content;
+}
+
+.fc .fc-daygrid-day-frame:hover {
+  background-color: hsl(var(--bc) / 0.05);
+  transition: background-color 0.2s;
+}
+
+/* Time axis styling - без горизонтальных бордеров как на скрине */
+.fc .fc-timegrid-axis {
+  border-right: 1px solid var(--fc-border-color);
+  border-top: none !important;
+  border-bottom: none !important;
+  background-color: var(--fc-white);
+  min-width: fit-content;
+}
+
+/* Переопределение ширины колонки времени в colgroup */
+.fc-scrollgrid colgroup col:first-child,
+.fc-scrollgrid colgroup col.fc-timegrid-axis {
+  width: 100px !important;
+}
+
+.fc .fc-timegrid-axis-frame {
+  border: none !important;
+}
+
+/* Стили для метки часового пояса */
+.fc .timezone-label,
+.timezone-label {
+  font-size: 10px;
+  color: hsl(var(--bc));
+  line-height: 1.2;
+  font-weight: 400;
+  text-align: right;
+  opacity: .5;
+}
+
+/* Убираем все горизонтальные бордеры в первой колонке (время) */
+.fc .fc-timegrid-slot-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--fc-time-label);
+  padding: 10px;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.fc .fc-timegrid-axis-chunk td,
+.fc .fc-timegrid-axis-chunk th {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+/* Убираем бордеры в заголовке первой колонки */
+.fc .fc-timegrid-axis.fc-scrollgrid-shrink {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.fc .fc-timegrid-slot-label-cushion {
+  padding: 0;
+}
+
+.fc .fc-scrollgrid-section-header .fc-timegrid-axis {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+/* Убираем верхний бордер в самом верху первой колонки */
+.fc .fc-scrollgrid-section:first-child .fc-timegrid-axis,
+.fc .fc-scrollgrid-section-header .fc-timegrid-axis,
+.fc th.fc-timegrid-axis {
+  border-top: none !important;
+  padding: 10px;
+  padding-top: 0;
+}
+
+/* Убираем нижний бордер в самом низу первой колонки */
+.fc .fc-scrollgrid-section:last-child .fc-timegrid-axis,
+.fc .fc-scrollgrid-section-body:last-child .fc-timegrid-axis,
+.fc .fc-timegrid-body .fc-timegrid-axis:last-child,
+.fc td.fc-timegrid-axis {
+  border-bottom: none !important;
+}
+
+/* Полностью убираем горизонтальные бордеры для всех элементов первой колонки */
+.fc .fc-timegrid-axis,
+.fc .fc-timegrid-axis *,
+.fc-scrollgrid .fc-timegrid-axis,
+.fc-scrollgrid td.fc-timegrid-axis,
+.fc-scrollgrid th.fc-timegrid-axis,
+.fc .fc-scrollgrid-section .fc-timegrid-axis,
+.fc .fc-scrollgrid-section-header .fc-timegrid-axis,
+.fc .fc-scrollgrid-section-body .fc-timegrid-axis {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+/* Scrollable area */
+.fc .fc-scroller {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .fc .fc-col-header-cell {
+  background-color: var(--fc-dark-header);
+}
+
+[data-theme="dark"] .fc .fc-col-header-cell.fc-day-sat,
+[data-theme="dark"] .fc .fc-col-header-cell.fc-day-sun {
+  background-color: var(--fc-dark-weekend-header);
+}
+
+[data-theme="dark"] .fc .fc-timegrid-col.fc-day-sat,
+[data-theme="dark"] .fc .fc-timegrid-col.fc-day-sun {
+  background-color: var(--fc-dark-weekend-timegrid);
+}
+
+[data-theme="dark"] .fc .fc-timegrid-col.fc-day-today {
+  background-color: var(--fc-dark-today);
+}
+
+[data-theme="dark"] .fc .fc-timegrid-axis {
+  background-color: var(--fc-dark-axis);
+}
+
+[data-theme="dark"] .fc .fc-timegrid-slot-label {
+  color: var(--fc-gray-text);
+}
