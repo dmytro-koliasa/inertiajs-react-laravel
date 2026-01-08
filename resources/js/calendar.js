@@ -118,7 +118,7 @@ const initCalendar = () => {
             hour12: true,
         },
         slotMinTime: '08:00:00',
-        slotMaxTime: '17:00:00',
+        slotMaxTime: '18:00:00',
         slotDuration: '01:00:00',
         slotLabelInterval: '01:00:00',
         allDaySlot: false,
@@ -383,6 +383,52 @@ const handleEventChange = (changeInfo) => {
     updateEvent(changeInfo.event);
 };
 
+// Handle all-day toggle change
+const handleAllDayToggle = function () {
+    const startInput = document.getElementById('event-start');
+    const endInput = document.getElementById('event-end');
+
+    if (this.checked) {
+        // Switch to date inputs
+        if (startInput) {
+            startInput.type = 'date';
+            if (startInput.value) {
+                const date = new Date(startInput.value);
+                startInput.value = formatDateLocal(date);
+            }
+        }
+        if (endInput) {
+            endInput.type = 'date';
+            if (endInput.value) {
+                const date = new Date(endInput.value);
+                endInput.value = formatDateLocal(date);
+            }
+        }
+    } else {
+        // Switch to datetime-local inputs
+        if (startInput) {
+            startInput.type = 'datetime-local';
+            if (startInput.value) {
+                const date = new Date(startInput.value);
+                if (isNaN(date.getTime())) {
+                    date.setHours(9, 0, 0, 0);
+                }
+                startInput.value = formatDateTimeLocal(date);
+            }
+        }
+        if (endInput) {
+            endInput.type = 'datetime-local';
+            if (endInput.value) {
+                const date = new Date(endInput.value);
+                if (isNaN(date.getTime())) {
+                    date.setHours(10, 0, 0, 0);
+                }
+                endInput.value = formatDateTimeLocal(date);
+            }
+        }
+    }
+};
+
 // Open event modal
 const openEventModal = (event, selectInfo) => {
     const modal = document.getElementById('event-modal');
@@ -470,54 +516,6 @@ const openEventModal = (event, selectInfo) => {
         if (eventDescription) eventDescription.value = '';
         if (eventColor) eventColor.value = '#3b82f6';
         if (deleteBtn) deleteBtn.style.display = 'none';
-    }
-
-    // Handle all-day toggle
-    if (allDayCheckbox) {
-        allDayCheckbox.addEventListener('change', function () {
-            const startInput = document.getElementById('event-start');
-            const endInput = document.getElementById('event-end');
-
-            if (this.checked) {
-                // Switch to date inputs
-                if (startInput) {
-                    startInput.type = 'date';
-                    if (startInput.value) {
-                        const date = new Date(startInput.value);
-                        startInput.value = formatDateLocal(date);
-                    }
-                }
-                if (endInput) {
-                    endInput.type = 'date';
-                    if (endInput.value) {
-                        const date = new Date(endInput.value);
-                        endInput.value = formatDateLocal(date);
-                    }
-                }
-            } else {
-                // Switch to datetime-local inputs
-                if (startInput) {
-                    startInput.type = 'datetime-local';
-                    if (startInput.value) {
-                        const date = new Date(startInput.value);
-                        if (isNaN(date.getTime())) {
-                            date.setHours(9, 0, 0, 0);
-                        }
-                        startInput.value = formatDateTimeLocal(date);
-                    }
-                }
-                if (endInput) {
-                    endInput.type = 'datetime-local';
-                    if (endInput.value) {
-                        const date = new Date(endInput.value);
-                        if (isNaN(date.getTime())) {
-                            date.setHours(10, 0, 0, 0);
-                        }
-                        endInput.value = formatDateTimeLocal(date);
-                    }
-                }
-            }
-        });
     }
 
     if (modal) modal.showModal();
@@ -688,6 +686,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 modal.close();
             }
         });
+    }
+
+    // Setup all-day checkbox handler
+    const allDayCheckbox = document.getElementById('event-allday');
+    if (allDayCheckbox) {
+        allDayCheckbox.addEventListener('change', handleAllDayToggle);
     }
 
     // Setup schedule form submit
