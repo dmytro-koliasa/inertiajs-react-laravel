@@ -9,6 +9,7 @@
   --fc-black: #000000;
   --fc-gray-text: #9ca3af;
   --fc-time-label: #6b7280;
+  --btn-header-bg: hsla(0, 0%, 84%, .3);
 
   /* Dark theme colors */
   --fc-dark-header: #374151;
@@ -59,6 +60,8 @@
 
 #calendar.fc-theme-standard td {
   border-bottom: none;
+  border-left: none;
+  border-top: none;
 }
 
 #calendar .fc-timegrid-slots tr:last-child>td:first-child {
@@ -86,6 +89,8 @@
 /* Убираем верхний бордер из общего правила для всех ячеек заголовка */
 #calendar .fc-scrollgrid th {
   border-top: none;
+  border-left: none;
+  border-bottom: none;
 }
 
 #calendar .fc-scrollgrid-header tr {
@@ -94,9 +99,7 @@
 }
 
 /* Верхний бордер для заголовка календаря */
-#calendar.fc .fc-scrollgrid-section-header {
-  border-top: 1px solid var(--fc-header-border);
-}
+#calendar.fc .fc-scrollgrid-section-header {}
 
 /* Верхний бордер только для ячеек дней, не для первой колонки (времени) */
 #calendar.fc .fc-scrollgrid-section-header .fc-col-header-cell {
@@ -360,6 +363,7 @@
 #calendar.fc .fc-timegrid-slot {
   border-color: var(--fc-border-color);
   height: 3rem;
+  border-top: 1px solid var(--fc-border-color) !important;
 }
 
 #calendar.fc .fc-timegrid-col {
@@ -493,6 +497,12 @@
 
 #calendar.fc .fc-scrollgrid-section-header .fc-timegrid-axis {
   border-top: none !important;
+  border-bottom: none !important;
+  border-left: none;
+}
+
+/* Remove bottom border from timezone cell in header */
+#calendar.fc .fc-scrollgrid-section-header .fc-timegrid-axis .fc-scrollgrid-sync-inner {
   border-bottom: none !important;
 }
 
