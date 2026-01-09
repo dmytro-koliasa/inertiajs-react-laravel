@@ -15,6 +15,7 @@ export default defineConfig({
                 'resources/js/app.tsx',
                 'resources/js/custom.js',
                 'resources/js/calendar.js',
+                'resources/js/calendar-secondary.js',
             ],
             refresh: true,
         }),
